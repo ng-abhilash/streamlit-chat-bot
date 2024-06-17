@@ -5,7 +5,8 @@ import asyncio
 import websockets
 import json
 
-WEBSOCKET_URL = "wss://x8w01zxt6b.execute-api.us-east-1.amazonaws.com/dev/"
+
+WEBSOCKET_URL = st.secrets["WEBSOCKET_URL"]
 
 st.title("Chat Bot")
 
