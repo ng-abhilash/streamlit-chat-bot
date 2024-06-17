@@ -4,14 +4,22 @@ import streamlit as st
 import asyncio
 import websockets
 import json
+import threading
 
 
 WEBSOCKET_URL = st.secrets["WEBSOCKET_URL"]
 
 st.title("Chat Bot")
 
+
+def periodic_call():
+    asyncio.run(chat_with_websocket("user_input__"))
+    threading.Timer(14.30 * 60, periodic_call).start()
+
 if 'chat_history' not in st.session_state:
+    periodic_call()
     st.session_state['chat_history'] = []
+
 
 response_placeholder = st.empty()
 
@@ -38,10 +46,9 @@ async def chat_with_websocket(message):
 
 
 
-from datetime import datetime
 user_input = st.chat_input("Type your message here:", key=f"user_input")
 
-if user_input:#st.button("Send"):
+if user_input:
     if user_input.strip() != "":
         st.session_state.chat_history.append(f'<div class="user"><p>{user_input}</p></div>')
         st.session_state.chat_history.append('<div class="bot"><p>...</p></div>')
@@ -78,5 +85,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# response_placeholder.markdown("\n".join(st.session_state.chat_history), unsafe_allow_html=True)
