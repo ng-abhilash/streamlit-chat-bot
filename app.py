@@ -12,17 +12,6 @@ WEBSOCKET_URL = st.secrets["WEBSOCKET_URL"]
 st.title("Chat Bot")
 
 
-def periodic_call():
-    asyncio.run(chat_with_websocket("user_input__"))
-    threading.Timer(14.30 * 60, periodic_call).start()
-
-if 'chat_history' not in st.session_state:
-    periodic_call()
-    st.session_state['chat_history'] = []
-
-
-response_placeholder = st.empty()
-
 async def chat_with_websocket(message):
     async with websockets.connect(WEBSOCKET_URL) as websocket:
         await websocket.send(json.dumps({"action": "message", "message": message}))
@@ -43,6 +32,19 @@ async def chat_with_websocket(message):
                 if bot_response == "":
                     bot_response = "Sorry, I'm unable load the data please try again"
                     st.session_state.chat_history[-1] = f'<div class="bot"><p>{bot_response}</p></div>'
+
+def periodic_call():
+    asyncio.run(chat_with_websocket("user_input__"))
+    threading.Timer(14.30 * 60, periodic_call).start()
+
+if 'chat_history' not in st.session_state:
+    periodic_call()
+    st.session_state['chat_history'] = []
+
+
+response_placeholder = st.empty()
+
+
 
 
 
