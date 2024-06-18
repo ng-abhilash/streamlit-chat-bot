@@ -72,19 +72,6 @@ async def chat_with_websocket(message):
 
 
 
-def periodic_call():
-    response_placeholder.markdown("\n".join(st.session_state.chat_history), unsafe_allow_html=True)
-    asyncio.run(chat_with_websocket("user_input__"))
-    
-    threading.Timer(5, periodic_call).start()
-
-if 'timer_started' not in st.session_state:
-    response_placeholder.markdown("\n".join(st.session_state.chat_history), unsafe_allow_html=True)
-    st.session_state.timer_started = True
-    periodic_call()
-
-
-
 if user_input:
     if user_input.strip() != "":
         st.session_state.chat_history.append(f'<div class="user"><p>{user_input}</p></div>')
