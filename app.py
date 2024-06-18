@@ -70,7 +70,15 @@ async def chat_with_websocket(message):
                     bot_response = "Sorry, I'm unable load the data please try again"
                     st.session_state.chat_history[-1] = f'<div class="bot"><p>{bot_response}</p></div>'
 
+def periodic_call():
+    print("started peroic_Call")
+    asyncio.run(chat_with_websocket("user_input__"))
+    threading.Timer(60, periodic_call).start()
 
+if 'timer_started' not in st.session_state:
+    response_placeholder.markdown("\n".join(st.session_state.chat_history), unsafe_allow_html=True)
+    st.session_state.timer_started = True
+    periodic_call()
 
 if user_input:
     if user_input.strip() != "":
