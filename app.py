@@ -14,6 +14,9 @@ st.title("Chat Bot")
 st.markdown(
     """
     <style>
+     .st-emotion-cache-4z1n4l{
+    visibility: hidden;
+    }
     .user {
         text-align: right;
         margin: 10px;
