@@ -60,7 +60,7 @@ async def chat_with_websocket(message):
                 response_data = json.loads(response)
                 res = response_data.get('message')
                 if res:
-                    if res == "Internal server error":
+                    if res == "dummy_response":
                         break
                     bot_response+=res
                     st.session_state.chat_history[-1] = f'<div class="bot"><p>{bot_response}</p></div>'
